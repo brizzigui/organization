@@ -88,7 +88,7 @@ start_if_2:
 	seq $t0, $t3, 6
 	sle $t4, $t1, $t2
 	
-	and $t0, $t0, $t4
+	or $t0, $t0, $t4
 	
 	beq $t0, 1, start_if_3
 	
