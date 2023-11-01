@@ -1,0 +1,49 @@
+0x00040000     0x27BDFFF8     addiu $sp, $sp, -8
+0x00040004     0x24080005     addiu $t0, $zero, 5
+0x00040008     0xAFA80004     sw $t0, 4($sp)
+0x0004000C     0x00082020     add $a0, $zero, $t0
+0x00040010     0x0C10000F     jal 0x0040003C
+0x00040014     0x8FA80004     lw $t0, 4($sp)
+0x00040018     0x00024821     addu $t1, $zero, $v0
+0x0004001C     0xAFA20000     sw $v0, 0($sp)
+0x00040020     0x00082021     addu $a0, $zero, $t0
+0x00040024     0x00092821     addu $a1, $zero, $t1
+0x00040028     0x0C10001C     jal 0x00400070
+0x0004002C     0x27BD0008     addiu $sp, $sp, 8
+0x00040030     0x24020011     addiu $v0, $zero, 17
+0x00040034     0x24040000     addiu $a0, $zero, 0
+0x00040038     0x0000000C     syscall
+0x0004003C     0x27BDFFF8     addiu $sp, $sp, -8
+0x00040040     0xAFBF0004     sw $ra, 4($sp)
+0x00040044     0xAFA40000     sw $a0, 0($sp)
+0x00040048     0x14040002     bne $zero, $a0, 0x00040054
+0x0004004C     0x20020001     addi $v0, $zero, 1
+0x00040050     0x0810001A     j 0x00400068
+0x00040054     0x2084FFFF     addi $a0, $a0, -1
+0x00040058     0x0C10000F     jal 0x0040003C
+0x0004005C     0x8FA40000     lw $a0, 0($sp)
+0x00040060     0x70821002     mul $v0, $a0, $v0
+0x00040064     0x8FBF0004     lw $ra, 4($sp)
+0x00040068     0x23BD0008     addi $sp, $sp, 8
+0x0004006C     0x03E00008     jr $ra
+0x00040070     0x27BDFFFC     addiu $sp, $sp, -4
+0x00040074     0xAFA40000     sw $a0, 0($sp)
+0x00040078     0x24020004     addiu $v0, $zero, 4
+0x0004007C     0x3C011001     lui $at, 4097
+0x00040080     0x34240000     ori $a0, $at, 0
+0x00040084     0x0000000C     syscall
+0x00040088     0x8FA40000     lw $a0, 0($sp)
+0x0004008C     0x24020001     addiu $v0, $zero, 1
+0x00040090     0x0000000C     syscall
+0x00040094     0x3C011001     lui $at, 4097
+0x00040098     0x3424000F     ori $a0, $at, 15
+0x0004009C     0x24020004     addiu $v0, $zero, 4
+0x000400A0     0x0000000C     syscall
+0x000400A4     0x00052021     addu $a0, $zero, $a1
+0x000400A8     0x24020001     addiu $v0, $zero, 1
+0x000400AC     0x0000000C     syscall
+0x000400B0     0x2404000A     addiu $a0, $zero, 10
+0x000400B4     0x2402000B     addiu $v0, $zero, 11
+0x000400B8     0x0000000C     syscall
+0x000400BC     0x27BD0004     addiu $sp, $sp, 4
+0x000400C0     0x03E00008     jr $ra
