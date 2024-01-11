@@ -1,9 +1,9 @@
-# Trabalho 1 da disciplina de Organização de Computadores
-# Implementou-se aqui a funçao de ler arquivo
+# Trabalho 1 da disciplina de Organizaï¿½ï¿½o de Computadores
+# Implementou-se aqui a funï¿½ao de ler arquivo
 
 # Ainda falta:
-# - procedimentos de conversao numérica em ascii
-# - separaçao de opcode e demais instrucoes
+# - procedimentos de conversao numï¿½rica em ascii
+# - separaï¿½ao de opcode e demais instrucoes
 # - comparacao de opcodes e instrucoes
 # - escrita em arquivo
 
@@ -15,7 +15,7 @@
 	file_descriptor_read: .word 0
 	file_descriptor_write: .word 0
 	current_address: .word 0x0040000
-	unknown_instruction: .ascii "Instrução desconhecida."
+	unknown_instruction: .ascii "Instruï¿½ï¿½o desconhecida."
 	
 	hex_prefix: .ascii "0x"
 
@@ -109,11 +109,11 @@ main:
 
 	redo:
 		
-	jal read_instruction             # chama procedimento de leitura da instruçao completa
+	jal read_instruction             # chama procedimento de leitura da instruï¿½ao completa
 					 # $v0 = quantia de chars lidos
 	move $s0, $v0			 # mode quantia de chars lidos para $s0 (preserva entre chamadas)
 	
-	ble $s0, 0, skip	 	 # se está no end of file, quebra loop (se chars < 0, entao end of file ou erro)
+	ble $s0, 0, skip	 	 # se estï¿½ no end of file, quebra loop (se chars < 0, entao end of file ou erro)
 	
 	jal write_address
 	jal print_space
@@ -137,15 +137,15 @@ open_read_file:
 	# nao altera pilha
 	
 	# chamada para abertura do arquivo
-	# cujo path está no endereço de file_address
+	# cujo path estï¿½ no endereï¿½o de file_address
 	
-	li $v0, 13               # carrega código da syscall de abertura de arquivo
-	la $a0, file_address     # carrega endereço da string do caminho do arquivo
+	li $v0, 13               # carrega cï¿½digo da syscall de abertura de arquivo
+	la $a0, file_address     # carrega endereï¿½o da string do caminho do arquivo
 	li $a1, 0                # flags = 0, read-only
 	li $a2, 0                # mode = 0
 	syscall
 	
-	sw $v0, file_descriptor_read  # salva na memória o file descriptor
+	sw $v0, file_descriptor_read  # salva na memï¿½ria o file descriptor
 	
 	jr $ra
 
@@ -153,24 +153,24 @@ open_write_file:
 	# nao altera pilha
 	
 	# chamada para abertura do arquivo
-	# cujo path está no endereço de file_address
+	# cujo path estï¿½ no endereï¿½o de file_address
 	
-	li $v0, 13               # carrega código da syscall de abertura de arquivo
-	la $a0, output_file_address     # carrega endereço da string do caminho do arquivo
+	li $v0, 13               # carrega cï¿½digo da syscall de abertura de arquivo
+	la $a0, output_file_address     # carrega endereï¿½o da string do caminho do arquivo
 	li $a1, 1                # flags = 9, write and append
 	li $a2, 0                # mode = 0
 	syscall
 	
-	sw $v0, file_descriptor_write  # salva na memória o file descriptor
+	sw $v0, file_descriptor_write  # salva na memï¿½ria o file descriptor
 	
 	jr $ra
 
 read_instruction:
-	# chamada para ler do arquivo uma instruçao
+	# chamada para ler do arquivo uma instruï¿½ao
 	lw $a0, file_descriptor_read   # descritor do arquivo em a0
-	la $a1, input_buffer      # endereço do buffer em a1
-	li $a2, 4                 # numero de caracteres a serem lidos (4 bytes = 32 bits = 1 instruçao)
-	li $v0, 14                # código da syscall de leitura de arquivo
+	la $a1, input_buffer      # endereï¿½o do buffer em a1
+	li $a2, 4                 # numero de caracteres a serem lidos (4 bytes = 32 bits = 1 instruï¿½ao)
+	li $v0, 14                # cï¿½digo da syscall de leitura de arquivo
 	syscall
 	
 	# $v0 guarda quantos chars lemos
@@ -182,16 +182,16 @@ read_instruction:
 # $ra   =   $sp + 0 #	
 print_hex_switch:
 	addiu $sp, $sp, -4    	# cria uma pilha para uma word
-	sw $ra, 0($sp)	     	# guarda o endereço de retorno na pilha
+	sw $ra, 0($sp)	     	# guarda o endereï¿½o de retorno na pilha
 	
 	#	recebe em t2 o parametro	#
 	move $t2, $a0		# t2 = a0
 	
 	#	preparando impressao	#
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write   # carrega descritor do arquivo de output
-	la $a1, output_buffer	        # carrega endereço do buffer de output
+	la $a1, output_buffer	        # carrega endereï¿½o do buffer de output
 	li $a2, 1                       # quantidade de chars a serem escritos
 	
 	# 	switch($t2) 	#
@@ -295,9 +295,9 @@ print_hex_switch:
 	
 	end_switch_hex_print:
 	
-	lw $ra, ($sp)         # carrega o endereço de retorno em $ra
+	lw $ra, ($sp)         # carrega o endereï¿½o de retorno em $ra
 	addiu $sp, $sp, 4     # destroi a pilha
-	jr $ra		      # volta para a função chamadora
+	jr $ra		      # volta para a funï¿½ï¿½o chamadora
 
 #   Mapa da pilha   #
 # $ra   =   $sp + 0 #
@@ -305,28 +305,28 @@ print_0x:
 	########################
 	# imprime "0x" na frente
 	addiu $sp, $sp, -4    # cria uma pilha para uma word
-	sw $ra, 0($sp)	      # guarda o endereço de retorno na pilha
+	sw $ra, 0($sp)	      # guarda o endereï¿½o de retorno na pilha
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write   # carrega descritor do arquivo de output
-	la $a1, hex_prefix              # carrega endereço do buffer de output
+	la $a1, hex_prefix              # carrega endereï¿½o do buffer de output
 	li $a2, 2                       # quantidade de chars a serem escritos
 	syscall
 	
-	lw $ra, ($sp)         # carrega o endereço de retorno em $ra
+	lw $ra, ($sp)         # carrega o endereï¿½o de retorno em $ra
 	addiu $sp, $sp, 4     # destroi a pilha
-	jr $ra		      # volta para a função chamadora
+	jr $ra		      # volta para a funï¿½ï¿½o chamadora
 	
 
 print_space:
 	########################
-	# imprime espaço " "
+	# imprime espaï¿½o " "
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write    # carrega descritor do arquivo de output
-	la $a1, space_suffix             # carrega endereço do buffer de output
+	la $a1, space_suffix             # carrega endereï¿½o do buffer de output
 	li $a2, 5                        # quantidade de chars a serem escritos
 	syscall
 	
@@ -335,12 +335,12 @@ print_space:
 
 print_single_space:
 	########################
-	# imprime espaço " "
+	# imprime espaï¿½o " "
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write    # carrega descritor do arquivo de output
-	la $a1, space_suffix             # carrega endereço do buffer de output
+	la $a1, space_suffix             # carrega endereï¿½o do buffer de output
 	li $a2, 1                        # quantidade de chars a serem escritos
 	syscall
 	
@@ -350,10 +350,10 @@ print_line_break:
 	########################
 	# imprime quebra linha "\n"
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write    # carrega descritor do arquivo de output
-	la $a1, line_break               # carrega endereço do buffer de output
+	la $a1, line_break               # carrega endereï¿½o do buffer de output
 	li $a2, 1                        # quantidade de chars a serem escritos
 	syscall
 	
@@ -363,10 +363,10 @@ print_comma:
 	########################
 	# imprime quebra linha "\n"
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write		# carrega descritor do arquivo de output
-	la $a1, comma				# carrega endereço do buffer de output
+	la $a1, comma				# carrega endereï¿½o do buffer de output
 	li $a2, 2				# quantidade de chars a serem escritos
 	syscall
 	
@@ -374,12 +374,12 @@ print_comma:
 	
 print_unknown:
 	########################
-	# imprime espaço " "
+	# imprime espaï¿½o " "
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write    # carrega descritor do arquivo de output
-	la $a1, unknown_instruction      # carrega endereço do buffer de output
+	la $a1, unknown_instruction      # carrega endereï¿½o do buffer de output
 	li $a2, 23                       # quantidade de chars a serem escritos
 	syscall
 	
@@ -393,9 +393,9 @@ write_address:
 	addiu $sp, $sp, -4
 	sw $ra, 0($sp)
 	
-	jal print_0x			# chama a função para imprimir "0x"
+	jal print_0x			# chama a funï¿½ï¿½o para imprimir "0x"
 	
-	lw $t0, current_address		# carrega o endereço atual em $t0
+	lw $t0, current_address		# carrega o endereï¿½o atual em $t0
 	lw $t1, mask_4_bits   		# carrega mascara em $t1
 	li $t4, 32
 	
@@ -406,18 +406,18 @@ write_address:
 	addiu $t4, $t4, -4		# $t4 = $t4 - 4
 	
 	srlv $t2, $t0, $t4     	# $t2 = $t0 shiftado a direita por $t4 bits
-	and $t2, $t2, $t1      	# isola últimos 4 bits
+	and $t2, $t2, $t1      	# isola ï¿½ltimos 4 bits
 	
 	move $a0, $t2		# define o valor em $t2 como parametro passado 
-	jal print_hex_switch	# chama a função para imprimir um hexa
+	jal print_hex_switch	# chama a funï¿½ï¿½o para imprimir um hexa
 	
 	check_loop_endereco:
 	bge $t4, 4, loop_endereco
 		
 	
-	lw $t0, current_address		# carrega em $t0 o valor do endereço
-	addiu $t0, $t0, 4		# adiciona 4 para o endereço
-	sw $t0, current_address		# guarda o novo valor de $t0 no endereço
+	lw $t0, current_address		# carrega em $t0 o valor do endereï¿½o
+	addiu $t0, $t0, 4		# adiciona 4 para o endereï¿½o
+	sw $t0, current_address		# guarda o novo valor de $t0 no endereï¿½o
 	
 	
 	lw $ra, 0($sp)
@@ -433,7 +433,7 @@ write_hex_instruction:
 	jal print_0x 
 	
 	########################
-	# imprime restante da instruçao em hexadecimal
+	# imprime restante da instruï¿½ao em hexadecimal
 
 	lw $t0, input_buffer   # carrega instrucao em $t0
 	lw $t1, mask_4_bits    # carrega mascara em $t1
@@ -447,10 +447,10 @@ write_hex_instruction:
 	addiu $t4, $t4, -4     # diminui em 4 bits a quantidade shiftada
 		
 	srlv $t2, $t0, $t4     # $t2 = $t0 shiftado a direita por $t4 bits
-	and $t2, $t2, $t1      # isola últimos 4 bits
+	and $t2, $t2, $t1      # isola ï¿½ltimos 4 bits
 		
 	move $a0, $t2		# define o valor em $t2 como parametro passado 
-	jal print_hex_switch	# chama a função para imprimir um hexa
+	jal print_hex_switch	# chama a funï¿½ï¿½o para imprimir um hexa
 	
 	check_condition_hex_instruction:
 	bge $t4, 4, loop_hex_instruction
@@ -463,14 +463,14 @@ write_hex_instruction:
 # Mapa da pilha #
 # $ra = &sp + 0 #
 print_register:
-	# função que recebe o valor em binário do registrador e printo o equivalente
+	# funï¿½ï¿½o que recebe o valor em binï¿½rio do registrador e printo o equivalente
 	addiu $sp, $sp, -4
 	sw $ra, 0($sp)
 
 	move $t9, $a0		# $t0 recebe o valor em $a0 (registrador parametro)
 	
 	#	preparando impressao	#
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write   # carrega descritor do arquivo de output
 	li $a2, 3                       # quantidade de chars a serem escritos
@@ -683,7 +683,7 @@ reverse_string:
 	# a0 = &string[0]
 	# a1 = len(string)
 	
-	# define sizeof(char) = 4 bytes -> arbitrário p/ alinhamento
+	# define sizeof(char) = 4 bytes -> arbitrï¿½rio p/ alinhamento
 	
 	move $t0, $a0
 	move $t1, $a1
@@ -696,11 +696,11 @@ reverse_string:
 		sll $t2, $t1, 2		# multiplica por 4 para alinhar na memoria
 		add $t2, $t2, $t0	# soma &string[0] + indice*4, ou seja $t2 = &string[indice]
 		
-		li $v0, 15                         # carrega código da syscall de escrita em arquivo
+		li $v0, 15                         # carrega cï¿½digo da syscall de escrita em arquivo
 
 		lw $a0, file_descriptor_write	   # carrega descritor do arquivo de output
 		
-		move $a1, $t2		           # carrega endereço do buffer de output
+		move $a1, $t2		           # carrega endereï¿½o do buffer de output
 		li $a2, 1			   # quantidade de chars a serem escritos
 	
 		syscall
@@ -720,7 +720,7 @@ reverse_string:
 # $ra = $sp + 40	
 
 binary_to_decimal:	
-	# converte o número em binário para decimal em ASCII
+	# converte o nï¿½mero em binï¿½rio para decimal em ASCII
 	# recebe valor em $a0
 	move $t1, $a0
 	
@@ -738,10 +738,10 @@ binary_to_decimal:
 	li $t2, '0'
 	sw $t2, output_buffer
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write		# carrega descritor do arquivo de output
-	la $a1, output_buffer			# carrega endereço do buffer de output
+	la $a1, output_buffer			# carrega endereï¿½o do buffer de output
 	li $a2, 1				# quantidade de chars a serem escritos
 	syscall
 	
@@ -754,7 +754,7 @@ binary_to_decimal:
 	skip_zero_adjustment:
 	li $t4, 0x00008000                       # mascara que isola primeiro bit dos 16 bits do imm
 	and $t4, $t1, $t4                        # isola o primeiro bit
-	beq $t4, 0, condition_check_conversion   # pula código caso 0 (imm positivo)
+	beq $t4, 0, condition_check_conversion   # pula cï¿½digo caso 0 (imm positivo)
 	
 	## caso seja negativo ##
 	
@@ -763,19 +763,19 @@ binary_to_decimal:
 	not $t1, $t1
 	addiu $t1, $t1, 1
 	
-	# imprime traço, indicando número negativo
+	# imprime traï¿½o, indicando nï¿½mero negativo
 	addiu $t2, $zero, '-'
 	sw $t2, output_buffer
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write		# carrega descritor do arquivo de output
-	la $a1, output_buffer			# carrega endereço do buffer de output
+	la $a1, output_buffer			# carrega endereï¿½o do buffer de output
 	li $a2, 1				# quantidade de chars a serem escritos
 	syscall
 	
 	#####################################
-	# CONVERSAO NUMERICA REAL COMEÇA AQUI
+	# CONVERSAO NUMERICA REAL COMEï¿½A AQUI
 	j condition_check_conversion
 	
 	loop_back_conversion:
@@ -787,7 +787,7 @@ binary_to_decimal:
 	
 	addiu $t2, $t2, '0'
 	
-	# multiplica o índice contido em $t5 por 4
+	# multiplica o ï¿½ndice contido em $t5 por 4
 	sll $t6, $t5, 2
 	add $t6, $sp, $t6  # $t6 = string[indice]
 	sw $t2, ($t6)      # string[indice] = digito atual (contido em $t2)
@@ -800,7 +800,7 @@ binary_to_decimal:
 	
 	move $a0, $sp
 	move $a1, $t5
-	jal reverse_string   	# chama funçao que imprime string invertida
+	jal reverse_string   	# chama funï¿½ao que imprime string invertida
 				# argumentos: $a0 = &string[0] e $a1 = len(string)
 	
 	lw $ra, 40($sp)         # restaura $ra
@@ -810,8 +810,8 @@ binary_to_decimal:
 # Mapa da pilha #
 # $ra = &sp + 0 #	
 print_numerical_imm:
-	# chamada para printar valor numérico do imediato
-	# usado para as instruçoes addi, addiu
+	# chamada para printar valor numï¿½rico do imediato
+	# usado para as instruï¿½oes addi, addiu
 	
 	addiu $sp, $sp, -4      # ajusta a pilha
 	sw $ra, 0($sp)          # salva $ra na pilha
@@ -838,8 +838,8 @@ print_address_from_imm:
 	
 	lw $t1, mask_4_bits
 	
-	lw $t2, current_address # carrega endereço atual
-	addu $t0, $t2, $t0	# adiciona os valores para ter endereço efetivo
+	lw $t2, current_address # carrega endereï¿½o atual
+	addu $t0, $t2, $t0	# adiciona os valores para ter endereï¿½o efetivo
 	
 	li $t4, 32
 	
@@ -850,10 +850,10 @@ print_address_from_imm:
 	addiu $t4, $t4, -4		# $t4 = $t4 - 4
 	
 	srlv $t2, $t0, $t4     	# $t2 = $t0 shiftado a direita por $t4 bits
-	and $t2, $t2, $t1      	# isola últimos 4 bits
+	and $t2, $t2, $t1      	# isola ï¿½ltimos 4 bits
 	
 	move $a0, $t2		# define o valor em $t2 como parametro passado 
-	jal print_hex_switch	# chama a função para imprimir um hexa
+	jal print_hex_switch	# chama a funï¿½ï¿½o para imprimir um hexa
 	
 	check_loop_endereco_imm:
 	
@@ -869,10 +869,10 @@ print_open_parentheses:
 	li $t0, '('
 	sw $t0, output_buffer
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write		# carrega descritor do arquivo de output
-	la $a1, output_buffer			# carrega endereço do buffer de output
+	la $a1, output_buffer			# carrega endereï¿½o do buffer de output
 	li $a2, 1				# quantidade de chars a serem escritos
 	syscall
 	
@@ -882,10 +882,10 @@ print_close_parentheses:
 	li $t0, ')'
 	sw $t0, output_buffer
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 
 	lw $a0, file_descriptor_write		# carrega descritor do arquivo de output
-	la $a1, output_buffer			# carrega endereço do buffer de output
+	la $a1, output_buffer			# carrega endereï¿½o do buffer de output
 	li $a2, 1				# quantidade de chars a serem escritos
 	syscall
 	
@@ -922,7 +922,7 @@ print_address_from_target:
 	lw $t0, current_target	# carrega imm
 	sll $t0, $t0, 2		# shifta imm em 2 bits
 	
-	lw $t1, mask_4_bits	# carrega máscara para isolar grupos de 4 em 4 bits
+	lw $t1, mask_4_bits	# carrega mï¿½scara para isolar grupos de 4 em 4 bits
 	li $t4, 32		# contador para impressao
 	
 	j check_loop_endereco_target
@@ -932,10 +932,10 @@ print_address_from_target:
 	addiu $t4, $t4, -4		# $t4 = $t4 - 4
 	
 	srlv $t2, $t0, $t4     	# $t2 = $t0 shiftado a direita por $t4 bits
-	and $t2, $t2, $t1      	# isola últimos 4 bits
+	and $t2, $t2, $t1      	# isola ï¿½ltimos 4 bits
 	
 	move $a0, $t2		# define o valor em $t2 como parametro passado 
-	jal print_hex_switch	# chama a função para imprimir um hexa
+	jal print_hex_switch	# chama a funï¿½ï¿½o para imprimir um hexa
 	
 	check_loop_endereco_target:
 	
@@ -948,75 +948,75 @@ print_address_from_target:
 
 
 isolate_fields:
-	# chamada para decodificar uma instruçao lida
+	# chamada para decodificar uma instruï¿½ao lida
 	
-	# $t1 mantém instruçao completa até o fim do procedimento
+	# $t1 mantï¿½m instruï¿½ao completa atï¿½ o fim do procedimento
 	
 	##### opcode
-	lw $t0, op_code_mask  # carrega em $t0 a máscara que isola 6 bits da intrucao
+	lw $t0, op_code_mask  # carrega em $t0 a mï¿½scara que isola 6 bits da intrucao
 	lw $t1, input_buffer  # carrega instrucao completa
 	
-	and $t2, $t0, $t1     # faz and lógico entre máscara e instruçao lida
+	and $t2, $t0, $t1     # faz and lï¿½gico entre mï¿½scara e instruï¿½ao lida
 			      # isolando apenas op code (contido agora em $t2)
 	
 	srl $t2, $t2, 26      # desloca opcode  
-	sw $t2, current_op    # salva opcode em variável global
+	sw $t2, current_op    # salva opcode em variï¿½vel global
 
 	##### rs
-	lw $t0, rs_mask       # carrega em $t0 a máscara que isola o campo rs
-	and $t2, $t0, $t1     # faz and lógico entre máscara e instruçao lida
+	lw $t0, rs_mask       # carrega em $t0 a mï¿½scara que isola o campo rs
+	and $t2, $t0, $t1     # faz and lï¿½gico entre mï¿½scara e instruï¿½ao lida
 			      # isolando apenas campo rs (contido agora em $t2)
 	
 	srl $t2, $t2, 21      # desloca rs  
-	sw $t2, current_rs    # salva rs em variável global
+	sw $t2, current_rs    # salva rs em variï¿½vel global
 	
 	##### rt
-	lw $t0, rt_mask       # carrega em $t0 a máscara que isola o campo rt
-	and $t2, $t0, $t1     # faz and lógico entre máscara e instruçao lida
+	lw $t0, rt_mask       # carrega em $t0 a mï¿½scara que isola o campo rt
+	and $t2, $t0, $t1     # faz and lï¿½gico entre mï¿½scara e instruï¿½ao lida
 			      # isolando apenas campo rt (contido agora em $t2)
 	
 	srl $t2, $t2, 16      # desloca rt  
-	sw $t2, current_rt    # salva rt em variável global
+	sw $t2, current_rt    # salva rt em variï¿½vel global
 	
 	##### rd
-	lw $t0, rd_mask       # carrega em $t0 a máscara que isola o campo rd
-	and $t2, $t0, $t1     # faz and lógico entre máscara e instruçao lida
+	lw $t0, rd_mask       # carrega em $t0 a mï¿½scara que isola o campo rd
+	and $t2, $t0, $t1     # faz and lï¿½gico entre mï¿½scara e instruï¿½ao lida
 			      # isolando apenas campo rd (contido agora em $t2)
 	
 	srl $t2, $t2, 11      # desloca rd  
-	sw $t2, current_rd    # salva rd em variável global
+	sw $t2, current_rd    # salva rd em variï¿½vel global
 	
 	##### shamt
-	lw $t0, shamt_mask    # carrega em $t0 a máscara que isola o campo shamt
-	and $t2, $t0, $t1     # faz and lógico entre máscara e instruçao lida
+	lw $t0, shamt_mask    # carrega em $t0 a mï¿½scara que isola o campo shamt
+	and $t2, $t0, $t1     # faz and lï¿½gico entre mï¿½scara e instruï¿½ao lida
 			      # isolando apenas campo shamt (contido agora em $t2)
 	
 	srl $t2, $t2, 6       # desloca shamt 
-	sw $t2, current_shamt # salva shamt em variável global
+	sw $t2, current_shamt # salva shamt em variï¿½vel global
 	
 	
 	##### funct
-	lw $t0, funct_mask    # carrega em $t0 a máscara que isola o campo funct
-	and $t2, $t0, $t1     # faz and lógico entre máscara e instruçao lida
+	lw $t0, funct_mask    # carrega em $t0 a mï¿½scara que isola o campo funct
+	and $t2, $t0, $t1     # faz and lï¿½gico entre mï¿½scara e instruï¿½ao lida
 			      # isolando apenas campo funct (contido agora em $t2)
 	
-	sw $t2, current_funct # salva funct em variável global
+	sw $t2, current_funct # salva funct em variï¿½vel global
 	
 	
 	##### imm
-	lw $t0, imm_mask      # carrega em $t0 a máscara que isola o campo imm
-	and $t2, $t0, $t1     # faz and lógico entre máscara e instruçao lida
+	lw $t0, imm_mask      # carrega em $t0 a mï¿½scara que isola o campo imm
+	and $t2, $t0, $t1     # faz and lï¿½gico entre mï¿½scara e instruï¿½ao lida
 			      # isolando apenas campo imm (contido agora em $t2)
 	 
-	sw $t2, current_imm   # salva imm em variável global
+	sw $t2, current_imm   # salva imm em variï¿½vel global
 
 
 	##### target
-	lw $t0, target_mask    # carrega em $t0 a máscara que isola o campo target
-	and $t2, $t0, $t1      # faz and lógico entre máscara e instruçao lida
+	lw $t0, target_mask    # carrega em $t0 a mï¿½scara que isola o campo target
+	and $t2, $t0, $t1      # faz and lï¿½gico entre mï¿½scara e instruï¿½ao lida
 			       # isolando apenas campo target (contido agora em $t2)
 	 
-	sw $t2, current_target # salva target em variável global
+	sw $t2, current_target # salva target em variï¿½vel global
 	
 	jr $ra
 
@@ -1030,11 +1030,10 @@ decode_instruction:
 	addiu $sp, $sp, -4
 	sw $ra, 0($sp)
 	
-	li $v0, 15            # carrega código da syscall de escrita em arquivo
+	li $v0, 15            # carrega cï¿½digo da syscall de escrita em arquivo
 	lw $a0, file_descriptor_write   # carrega descritor do arquivo de output
 	
 	# switch(current_op)
-	
 	beq $t0, 0, op_0
 	beq $t0, 2, op_2
 	beq $t0, 3, op_3
@@ -1065,15 +1064,15 @@ decode_instruction:
 			jal print_single_space
 			
 			lw $a0, current_rd	# carrega o rd
-			jal print_register	# chama a função para printar o rd
+			jal print_register	# chama a funï¿½ï¿½o para printar o rd
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rs	# carrega o rs
-			jal print_register	# chama a função para printar o rs
+			jal print_register	# chama a funï¿½ï¿½o para printar o rs
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rt	# carrega o rt
-			jal print_register	# chama a função para printar o rt
+			jal print_register	# chama a funï¿½ï¿½o para printar o rt
 			
 			j end_ops_switch
 		
@@ -1085,15 +1084,15 @@ decode_instruction:
 			jal print_single_space
 			
 			lw $a0, current_rd	# carrega o rd
-			jal print_register	# chama a função para printar o rd
+			jal print_register	# chama a funï¿½ï¿½o para printar o rd
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rs	# carrega o rs
-			jal print_register	# chama a função para printar o rs
+			jal print_register	# chama a funï¿½ï¿½o para printar o rs
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rt	# carrega o rt
-			jal print_register	# chama a função para printar o rt
+			jal print_register	# chama a funï¿½ï¿½o para printar o rt
 		
 			j end_ops_switch
 			
@@ -1111,12 +1110,12 @@ decode_instruction:
 			jal print_single_space
 			
 			lw $a0, current_rs	# carrega o rs
-			jal print_register	# chama a função para printar o rs
+			jal print_register	# chama a funï¿½ï¿½o para printar o rs
 			
 			j end_ops_switch
 		
 	op_2:
-		la $a1, text_op_2               # carrega endereço do buffer de output
+		la $a1, text_op_2               # carrega endereï¿½o do buffer de output
 		li $a2, 1                       # quantidade de chars a serem escritos
 		syscall
 		
@@ -1126,7 +1125,7 @@ decode_instruction:
 		j end_ops_switch
 		
 	op_3:
-		la $a1, text_op_3               # carrega endereço do buffer de output
+		la $a1, text_op_3               # carrega endereï¿½o do buffer de output
 		li $a2, 3                       # quantidade de chars a serem escritos
 		syscall
 		
@@ -1136,17 +1135,17 @@ decode_instruction:
 		j end_ops_switch
 		
 	op_5:
-		la $a1, text_op_5               # carrega endereço do buffer de output
+		la $a1, text_op_5               # carrega endereï¿½o do buffer de output
 		li $a2, 3                       # quantidade de chars a serem escritos
 		syscall
 		jal print_single_space
 		
 		lw $a0, current_rs		# carrega o rs
-		jal print_register		# chama a função para printar o rs
+		jal print_register		# chama a funï¿½ï¿½o para printar o rs
 		jal print_comma			# adiciona a virgula
 		
 		lw $a0, current_rt		# carrega o rt
-		jal print_register		# chama a função para printar o rt
+		jal print_register		# chama a funï¿½ï¿½o para printar o rt
 		jal print_comma			# adiciona a virgula
 			
 		jal print_address_from_imm
@@ -1154,70 +1153,70 @@ decode_instruction:
 		j end_ops_switch
 		
 	op_8:
-		la $a1, text_op_8               # carrega endereço do buffer de output
+		la $a1, text_op_8               # carrega endereï¿½o do buffer de output
 		li $a2, 4                       # quantidade de chars a serem escritos
 		syscall
 		jal print_single_space
 		
 		lw $a0, current_rt	# carrega o rt
-		jal print_register	# chama a função para printar o rt
+		jal print_register	# chama a funï¿½ï¿½o para printar o rt
 		jal print_comma		# adiciona a virgula
 			
 		lw $a0, current_rs	# carrega o rs
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		
 		jal print_comma		# adiciona a virgula
-		jal print_numerical_imm # chama a função para printar o imm
+		jal print_numerical_imm # chama a funï¿½ï¿½o para printar o imm
 		
 		j end_ops_switch
 	
 	op_9:
-		la $a1, text_op_9               # carrega endereço do buffer de output
+		la $a1, text_op_9               # carrega endereï¿½o do buffer de output
 		li $a2, 5                       # quantidade de chars a serem escritos
 		syscall
 		jal print_single_space
 		
 		lw $a0, current_rt	# carrega o rt
-		jal print_register	# chama a função para printar o rt
+		jal print_register	# chama a funï¿½ï¿½o para printar o rt
 		jal print_comma		# adiciona a virgula
 			
 		lw $a0, current_rs	# carrega o rs
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		
 		jal print_comma		# adiciona a virgula
-		jal print_numerical_imm # chama a função para printar o imediato
+		jal print_numerical_imm # chama a funï¿½ï¿½o para printar o imediato
 		
 		j end_ops_switch
 		
 	op_13:
-		la $a1, text_op_13              # carrega endereço do buffer de output
+		la $a1, text_op_13              # carrega endereï¿½o do buffer de output
 		li $a2, 3                       # quantidade de chars a serem escritos
 		syscall
 		jal print_single_space
 		
 		lw $a0, current_rt	# carrega o rt
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		jal print_comma		# adiciona a virgula
 
 		lw $a0, current_rs	# carrega o rs
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		
 		jal print_comma		# adiciona a virgula
-		jal print_numerical_imm # chama a funçao para printar o imediato
+		jal print_numerical_imm # chama a funï¿½ao para printar o imediato
 		
 		j end_ops_switch
 		
 	op_15:
-		la $a1, text_op_15              # carrega endereço do buffer de output
+		la $a1, text_op_15              # carrega endereï¿½o do buffer de output
 		li $a2, 3                       # quantidade de chars a serem escritos
 		syscall
 		jal print_single_space
 		
 		lw $a0, current_rt	# carrega o rt
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		jal print_comma		# adiciona a virgula
 		
-		jal print_numerical_imm # chama a funçao para printar o imediato
+		jal print_numerical_imm # chama a funï¿½ao para printar o imediato
 		
 		j end_ops_switch
 			
@@ -1238,15 +1237,15 @@ decode_instruction:
 			jal print_single_space
 			
 			lw $a0, current_rd	# carrega o rd
-			jal print_register	# chama a função para printar o rd
+			jal print_register	# chama a funï¿½ï¿½o para printar o rd
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rs	# carrega o rs
-			jal print_register	# chama a função para printar o rs
+			jal print_register	# chama a funï¿½ï¿½o para printar o rs
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rt	# carrega o rt
-			jal print_register	# chama a função para printar o rt
+			jal print_register	# chama a funï¿½ï¿½o para printar o rt
 		
 			j end_ops_switch
 		
@@ -1257,11 +1256,11 @@ decode_instruction:
 			jal print_single_space
 			
 			lw $a0, current_rs	# carrega o rs
-			jal print_register	# chama a função para printar o rs
+			jal print_register	# chama a funï¿½ï¿½o para printar o rs
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rt	# carrega o rt
-			jal print_register	# chama a função para printar o rt
+			jal print_register	# chama a funï¿½ï¿½o para printar o rt
 		
 			j end_ops_switch
 		
@@ -1272,11 +1271,11 @@ decode_instruction:
 			jal print_single_space
 			
 			lw $a0, current_rs	# carrega o rs
-			jal print_register	# chama a função para printar o rs
+			jal print_register	# chama a funï¿½ï¿½o para printar o rs
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rt	# carrega o rt
-			jal print_register	# chama a função para printar o rt
+			jal print_register	# chama a funï¿½ï¿½o para printar o rt
 		
 			j end_ops_switch
 		
@@ -1287,49 +1286,49 @@ decode_instruction:
 			jal print_single_space
 			
 			lw $a0, current_rs	# carrega o rs
-			jal print_register	# chama a função para printar o rs
+			jal print_register	# chama a funï¿½ï¿½o para printar o rs
 			jal print_comma		# adiciona a virgula
 			
 			lw $a0, current_rt	# carrega o rt
-			jal print_register	# chama a função para printar o rt
+			jal print_register	# chama a funï¿½ï¿½o para printar o rt
 		
 			j end_ops_switch
 		
 	op_35:
-		la $a1, text_op_35              # carrega endereço do buffer de output
+		la $a1, text_op_35              # carrega endereï¿½o do buffer de output
 		li $a2, 2                       # quantidade de chars a serem escritos
 		syscall
 		jal print_single_space
 		
 		lw $a0, current_rt	# carrega o rt
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		jal print_comma		# adiciona a virgula
 		
 		jal print_shift_address_from_imm
 		jal print_open_parentheses
 		
 		lw $a0, current_rs	# carrega o rs
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		
 		jal print_close_parentheses
 		
 		j end_ops_switch
 		
 	op_43:
-		la $a1, text_op_43              # carrega endereço do buffer de output
+		la $a1, text_op_43              # carrega endereï¿½o do buffer de output
 		li $a2, 2                       # quantidade de chars a serem escritos
 		syscall
 		jal print_single_space
 		
 		lw $a0, current_rt	# carrega o rt
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		jal print_comma		# adiciona a virgula
 		
 		jal print_shift_address_from_imm
 		jal print_open_parentheses
 		
 		lw $a0, current_rs	# carrega o rs
-		jal print_register	# chama a função para printar o rs
+		jal print_register	# chama a funï¿½ï¿½o para printar o rs
 		
 		jal print_close_parentheses
 		
